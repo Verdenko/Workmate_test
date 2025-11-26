@@ -1,7 +1,8 @@
 import argparse
 import csv
 import os
-from tabulate import tabulate
+import sys
+from tabulate import tabulate # type: ignore
 from collections import defaultdict
 from typing import List, Dict, Any, Callable
 
@@ -32,10 +33,11 @@ def main() -> None:
     try:
         if not employees:
             print("Не удалось прочитать данные из файлов.")
-            raise ValueError("Нет данных сотрудников.")
+            raise ValueError("В файле нет данных сотрудников.")
     except Exception as e:
-        print(f"Ошибка: {e}")
         parser.print_help()
+        print(f"Ошибка: {e}")
+        sys.exit(1)
 
     report_data = REPORTS[args.report](employees)
 
