@@ -55,15 +55,20 @@ def read_employees_from_files(filenames: List[str]) -> List[Dict[str, str]]:
     """ Читает все CSV-файлы и возвращает список словарей-сотрудников """
     employees = []
     for filename in filenames:
-        with open(filename, mode='r', encoding='utf-8', newline='') as f:
-            reader = csv.DictReader(f)
-            if 'position' not in reader.fieldnames or 'performance' not in reader.fieldnames: # type: ignore
-                raise Exception(f"Ошибка: в файле {filename} отсутствуют обязательные столбцы 'position' или 'performance'")
+        
+        try:
+            with open(filename, mode='r', encoding='utf-8', newline='') as f:
+                reader = csv.DictReader(f)
+                if 'position' not in reader.fieldnames or 'performance' not in reader.fieldnames:  # type: ignore
+                    raise Exception(f"Ошибка: в файле '{filename}' отсутствуют обязательные столбцы 'position' или 'performance'")
                 
-            for row in reader:
-                cleaned_row = {key.strip(): value.strip() for key, value in row.items()}
-                
-                employees.append(cleaned_row)
+                for row in reader:
+                    cleaned_row = {key.strip(): value.strip() for key, value in row.items()}
+                    employees.append(cleaned_row)
+
+        except FileNotFoundError:
+            print(f"Ошибка: файл '{filename}' не найден.", file=sys.stderr)
+            sys.exit(1)
 
     return employees
 
@@ -100,7 +105,7 @@ REPORTS: Dict[str, Callable] = {
 def print_report(report_name: str, data: List[Dict[str, Any]]) -> None:
     """ Выводит таблицу с отчётом """
     headers = data[0].keys()
-    rows = [[i+1,*[row[h] for h in headers]] for i,row in enumerate(data)] # Форматирование словарей для вывода
+    rows = [[i+1,*[row[h] for h in headers]] for i,row in enumerate(data)] # Форматирование словарей для вывода в табличном виде
     print(f"Отчёт: {report_name}")
     print(tabulate(rows,headers=list(headers), floatfmt=".2f"))
 
