@@ -18,11 +18,12 @@ poetry run python src/main.py --files [путь к файлу формата .cs
 ### Пример отчёта в терминале
 Отчёт: performance
 ────────────────────────────
-Position             Avg Performance
-1  DevOps Engineer               4.80
-2  Backend Developer             4.83
-3  Fullstack Developer           4.70
-4  Data Scientist                4.65
-5  Frontend Developer            4.67
-6  Mobile Developer              4.60
-7  QA Engineer                   4.50
+|№| Position | Avg Performance |
+| --- | --- | --- |
+|1|  DevOps Engineer |4.80|
+|2| Backend Developer |4.83|
+|3|  Fullstack Developer |4.70|
+|4| Data Scientist |4.65|
+|5| Frontend Developer |4.67|
+|6| Mobile Developer |4.60|
+|7| QA Engineer |4.50|
